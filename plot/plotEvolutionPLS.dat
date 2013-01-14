@@ -1,0 +1,12 @@
+
+instance = "F1-2"
+set   autoscale                        # scale axes automatically
+unset log                              # remove any log-scaling
+unset label                            # remove any previous labels
+set xtic auto                          # set xtics automatically
+set ytic auto                          # set ytics automatically
+set xlabel "Obj. 1"
+set ylabel "Obj. 2"
+set key font ",8"
+set title "F1-2 Evolution PLS "
+plot './res/F1-2_ParetoFrontier.out' using 1:2 with points title "pareto frontier", './res/F1-2_PopulationPLS_0.out' using 1:2 with points title "1", './res/F1-2_PopulationPLS_1.out' using 1:2 with points title "2", './res/F1-2_PopulationPLS_2.out' using 1:2 with points title "3", './res/F1-2_PopulationPLS_3.out' using 1:2 with points title "4"
