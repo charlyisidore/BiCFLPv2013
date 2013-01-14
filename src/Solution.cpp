@@ -59,8 +59,8 @@ Solution::Solution(vector<int> affect, vector <bool> opened_facility, Data & dat
       obj1_ += data.getAllocationObj1Cost(i,affect[i]);
       obj2_ += data.getAllocationObj2Cost(i,affect[i]);
       if(!added_cost_of_facility[affect[i]]){
-			obj1_ += data.getFacility(i).getLocationObj1Cost();
-			obj2_ += data.getFacility(i).getLocationObj2Cost();
+			obj1_ += data.getFacility(affect[i]).getLocationObj1Cost();
+			obj2_ += data.getFacility(affect[i]).getLocationObj2Cost();
 			added_cost_of_facility[affect[i]]=true;
 	  }
     }
