@@ -116,6 +116,13 @@ public:
    */
   double getObj2() const;
    
+
+  /*!
+   *	\brief Getter of the feausibility of the solutions.
+   *	\return A bool: true if the solution is feasible, 0 otherwise.
+   */
+  bool isCorrect() const;
+
   /*!
    * \brief  Getter for the rank of a \c Solution.
    * \return A unsigned int which represents the rank of this \c Solution.
@@ -188,6 +195,7 @@ private:
   vector <int> affectation_; /*!< customer i is affected to a facility affectation_[i]. This slot is used only with cflp */
   unsigned int _rank;   /*!< the rank of the solution. At init, the value is 0, if the solution is efficient, the rank value is 1. ... */
   double _kappa;   /* this value corresponds to the crowding value of this solution. If it is lexicographically efficient in the current population then kappa is +inf (|z|+1); otherwise ... */
+  bool correct; /*! < Double which represents the feasibility of the solution according to the SSCFLP */
 
 };
 
@@ -227,4 +235,3 @@ bool operator==(Solution const &s1 ,Solution const & s2);
 ostream& operator<<(ostream &out, const Solution *sol);
 
 #endif
-

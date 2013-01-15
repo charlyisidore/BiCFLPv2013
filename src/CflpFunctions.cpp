@@ -189,7 +189,7 @@ vector< Solution* > path_relinking( Data &data,
 						data,
 						current_residue_capacity);
       // if this solution is feasible, then we add it in the path
-      if (correct){
+      if (solution_in_path->isCorrect()){
 	path.push_back(solution_in_path);
 	X_e.addSolution(solution_in_path);
       }

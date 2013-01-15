@@ -214,12 +214,19 @@ void  evolution (EfficientSolution & efficient_population,
 		  bool correct=true;
 		  // mutation of element i
 		  int position_mut= randAB(0, numberOfCustomers-1); //the position of the mutation
-		  int	new_facility = randAB(0,numberOfFacility-1); // ????
-		  std::vector<int> _affectation=((path[elem])->getAffectation());
+		  int new_facility = randAB(0,numberOfFacility-1); // ????
+		  std::vector<int> tmp1= ((path[elem])->getAffectation());
+		  std::vector<int> _affectation= std::vector<int>();
+                  for(unsigned int m=0;m< numberOfCustomers; m++){
+			_affectation.push_back(tmp1[m]);
+		  }
 		  int old_facility = _affectation[position_mut];
 		  _affectation[position_mut]=new_facility;
-					
-		  std::vector<double> _residue_capacity=((path[elem])->getResidualCapacity());
+		  std::vector<double> tmp2=((path[elem])->getResidualCapacity());
+		  std::vector<double> _residue_capacity= std::vector<double>();
+                  for(unsigned int m=0;m< numberOfFacility; m++){
+			_residue_capacity.push_back(tmp2[m]);
+		  }
 		  _residue_capacity[new_facility] -= data.getCustomer(position_mut).getDemand();
 		  _residue_capacity[old_facility] += data.getCustomer(position_mut).getDemand();
 					
@@ -251,9 +258,12 @@ void  evolution (EfficientSolution & efficient_population,
 							   data,
 							   _residue_capacity);
 		  // if the visited solution est feasible / then we add it to the path
-		  if (correct){
+		  if (mutated_element->isCorrect()){
 		    offspring_population.push_back(mutated_element);
 		    efficient_population.addSolution(mutated_element);
+		  }
+		  else{
+			delete mutated_element;
 		  }
 		}
 	      }
@@ -378,4 +388,3 @@ efficient_population.addSolution(sol3);
   ToFile::savePopulation(population, data, "FinalPopulationNSGA");
   
 }
-

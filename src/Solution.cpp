@@ -44,7 +44,7 @@ Solution::Solution(vector<int> affect, vector <bool> opened_facility, Data & dat
   obj2_ = 0.;
   
   unsigned int numberOfFacility = data.getnbFacility();
-  //unsigned int numberOfCustomers = data.getnbCustomer();
+  unsigned int numberOfCustomers = data.getnbCustomer();
   
   vector<bool> added_cost_of_facility = vector<bool>();
   for(unsigned int i=0; i<numberOfFacility;i++){
@@ -64,14 +64,21 @@ Solution::Solution(vector<int> affect, vector <bool> opened_facility, Data & dat
 			added_cost_of_facility[affect[i]]=true;
 	  }
     }
-  for (unsigned int i=0; i < rc.size(); ++i)
+  correct= true;
+  for (unsigned int j=0; j < numberOfFacility ; ++j)
     {
-      residual_capacity_.push_back(rc[i]);
+      residual_capacity_.push_back(data.getFacility(j).getCapacity());
     }
+  for (unsigned int i=0; i < numberOfCustomers; ++i)
+    {
+      residual_capacity_[affectation_[i]] -= data.getCustomer(i).getDemand();
+      if( residual_capacity_[affectation_[i]] < 0){
+      	correct = false;
+        std::cout << "ici"<<std::endl;
+      }
+    }  
     
-    
-
-	   for(unsigned int i=0; i< opened_facility.size(); i++)
+  for(unsigned int i=0; i< opened_facility.size(); i++)
     {
       if (added_cost_of_facility[i]){
 	y_j_ += "1";
@@ -197,6 +204,11 @@ int Solution::getAffectation(int customer) const
   return affectation_[customer];
 }
 
+bool Solution::isCorrect() const
+{
+  return correct;
+}
+
 
 void Solution::setAffectation(vector <int> affectation)
 {
@@ -208,12 +220,15 @@ void Solution::setAffectation(vector <int> affectation)
 
 ostream &operator<<(ostream &out, const Solution *sol)
 {
-  out << sol->getObj1() << "\t" << sol->getObj2() ;//<< "\t"<< sol->getY_j()<<"\t";
-  /* // if needs for debug
+  out << sol->getObj1() << "\t" << sol->getObj2() << " correct:" << (*sol).isCorrect() << "\t"<< sol->getY_j()<<"\t";
+  // if needs for debug
   for(unsigned int i=0;i<sol->getAffectation().size();i++){
 	 out << sol->getAffectation(i)<<" ";
   }	
-  */
+  
+    for(unsigned int i=0;i<sol->getResidualCapacity().size();i++){
+	 out << sol->getResidualCapacity(i)<<" ";
+  }	
+
   return out;
 }
-
